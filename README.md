@@ -1,13 +1,11 @@
-# Swiss QR Addon
+# ASN QR Addon
 
 This is an addon for [Docspell](https://docspell.org) to process
-[Swiss QR
-Code](https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf)
-that appears on most invoices.
+ASN QR Codes
 
 This project provides a simple cli tool to read these qr codes from
 images and pdf files. It can be installed as an docspell addon to
-process each (invoice) file and add the extracted information as
+process each file and add the extracted information as
 metadata to the document.
 
 # Usage
@@ -24,33 +22,23 @@ way the addon is run with every new file uploaded to Docspell.
 
 The addon does the following:
 
-- detects QR codes on each file and tries to read them as [Swiss
-  QR-Bill](https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf)
-  qr codes (other QR codes are ignored)
-- if successful, the amount can be attached to a custom field and tags can be added
+- detects QR codes on each file and tries to read them as [ASN
+  QR-Code]
+  qr codes
+- if successful, the number can be attached to a custom field and tags can be added
 - the data from the qr code is added to the item notes
 
 You can optionally configure some steps using a YAML configuration.
 Here is an example:
 
 ```yaml
-field-currency:
-  CHF: chf
-  EUR: eur
-
 add-tags:
-  - Invoice
+  - ASN
   - QR-Code
 
 check-tags:
-  - Invoice
-
-additional-as-name: true
+  - ASN
 ```
-
-The `field-currency` is a map that defines the name of a custom field
-given a currency code. This custom field is used to set the amount of
-the invoice. When multiple QR codes appear, the amount is summed up.
 
 The `add-tags` section is a list of tags (they must exist) that are
 added to the item when at least one QR code was found and decoded.
@@ -60,13 +48,8 @@ of the defined tags are already present on an item. This can be useful
 if the tag classification works well and so you only apply this addon
 to documents classified as "Invoice", for example.
 
-The flag `additional-as-name` controls whether to set the item name
-from the _additional information_ provided in the qr code. Quite often
-this line is some sense of title of that invoice.
-
-Each section is optional. You need to define `field-currency` and
-`add-tags` if you want to add additional tags or set the amount to a
-custom field.
+Each section is optional. You need to define `add-tags` if you want 
+to add additional tags or set the amount to a custom field.
 
 ## Example
 
